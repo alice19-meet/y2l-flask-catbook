@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request
 from flask import render_template
 from database import get_all_cats, create_cat, get_cat
 
@@ -17,10 +17,26 @@ def cat_profile(id):
     return render_template(
         'cat.html', cat=cat)
 
-@app.route('/add_cat')
-def new_cat():
-    return render_template(
-        'add.html')
+# @app.route('/add_cat/', methods=['GET', 'POST'])
+# def add_cat():    
+#     return render_template('add.html')
+
+@app.route('/add_cat/<string:name>', methods=['GET', 'POST'])
+def add_cat(name):
+    if request.method == 'GET':
+        #create_cat(name)
+        return render_template('add.html', name=name)
+    else:
+        name = request.form['name']
+ 
+
+        save_to_database(name)        
+        return render_template('response.html',
+            n = name)
+
+
+	
+
 
 
 if __name__ == '__main__':
