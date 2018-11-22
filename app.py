@@ -1,7 +1,6 @@
 from flask import Flask, request
 from flask import render_template
 from database import get_all_cats, create_cat, get_cat
-
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'YOUR-VERY-SECRET-SHHH'
 
@@ -21,18 +20,21 @@ def cat_profile(id):
 # def add_cat():    
 #     return render_template('add.html')
 
-@app.route('/add_cat/<string:name>', methods=['GET', 'POST'])
-def add_cat(name):
+@app.route('/add_cat', methods=['GET', 'POST'])
+def add_cat():
     if request.method == 'GET':
         #create_cat(name)
-        return render_template('add.html', name=name)
+        return render_template('add.html')
     else:
+        print("!" * 1000)
         name = request.form['name']
  
 
-        save_to_database(name)        
-        return render_template('response.html',
-            n = name)
+        cat_profile(name)  
+        cats = get_all_cats()
+        print("#" * 1000)      
+        return render_template('home.html',
+            cats=cats)
 
 
 	
