@@ -1,5 +1,5 @@
 from flask import Flask, request
-from flask import render_template
+from flask import render_template, redirect, url_for
 from database import get_all_cats, create_cat, get_cat
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'YOUR-VERY-SECRET-SHHH'
@@ -30,11 +30,10 @@ def add_cat():
         name = request.form['name']
  
 
-        cat_profile(name)  
+        create_cat(name)  
         cats = get_all_cats()
         print("#" * 1000)      
-        return render_template('home.html',
-            cats=cats)
+        return redirect(url_for('catbook_home'))
 
 
 	
